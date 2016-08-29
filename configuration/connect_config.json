@@ -1,0 +1,7 @@
+{
+  "BROWSER": "CHROME",
+  "BASE_URL": "https://baseurl.com",
+  "LOGIN": "login",
+  "PASS": "haslo",
+  "ENV": "testenv",
+}
