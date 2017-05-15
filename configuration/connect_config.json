@@ -4,4 +4,5 @@
   "LOGIN": "login",
   "PASS": "haslo",
   "ENV": "testenv",
+  "WAIT_TIMEOUT": 5
 }

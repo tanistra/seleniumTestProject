@@ -48,6 +48,6 @@ def create_driver(browser=CONFIG["BROWSER"]):
         ERROR! Please check browser in config.json file. BROWSER should = 'FF',
         'CHROME', 'OPERA' 'IE', 'EDGE' or 'SAFARI'
         """
-    driver.implicitly_wait(15)
+
     log.logger('INFO', '%s selenium driver started' % browser)
     return driver
