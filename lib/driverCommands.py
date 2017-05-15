@@ -2,6 +2,7 @@ import os
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException, NoSuchWindowException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 from lib.logger import Logger
 from lib.waitCommands import WaitCommands
 from .configurationReader import load_configuration_from_file
@@ -15,6 +16,10 @@ class DriverCommands:
         self.log = Logger()
         self.base_url = CONFIG['BASE_URL']
         self.waitCommands = WaitCommands(self.driver)
+
+    def open_url(self, url):
+        self.driver.get(url)
+        self.log.logger('INFO', 'Opened url: %s' % url)
 
     def find_element(self, selector):
         """Find element on application view.
@@ -74,6 +79,13 @@ class DriverCommands:
         element.send_keys(value)
         if confirm:
             element.submit()
+
+    def move_to_element(self, selector):
+        """
+        move mouse coursor up to element
+        :param selector: selector for element"""
+        element = self.find_element(selector)
+        ActionChains(self.driver).move_to_element(element).perform()
 
     def check_page_title(self, expected_title, wait=5):
         """Wait some time until title will be equal to expected
