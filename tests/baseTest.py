@@ -1,8 +1,6 @@
-import unittest
 
 from lib.createDriver import create_driver
 from lib.logger import whoami, Logger
-from lib.driverCommands import DriverCommands
 from lib.configurationReader import load_configuration_from_file
 from lib.listeners import Listerers
 from selenium.webdriver.support.events import EventFiringWebDriver
@@ -17,11 +15,11 @@ class BaseTest(unittest.TestCase, Logger):
     @classmethod
     def setUpClass(cls):
         cls.logger('INFO', 'New test suite start')
-        cls.driver = EventFiringWebDriver(create_driver(), Listerers())
+        cls.driver = create_driver()
 
     def setUp(self):
-        self.testResult = False
         whoami()
+        self.driver = EventFiringWebDriver(self.driver, Listerers(self.__dict__))
         # LOGIN OR SOMETHING SIMILAR
 
     def tearDown(self):
@@ -31,4 +29,5 @@ class BaseTest(unittest.TestCase, Logger):
     @classmethod
     def tearDownClass(cls):
         cls.driver.close()
+        cls.driver.quit()
         cls.logger('INFO', 'Test suite finished')
