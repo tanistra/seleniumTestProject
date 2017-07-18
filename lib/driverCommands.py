@@ -21,7 +21,7 @@ class DriverCommands:
         self.driver.get(url)
         self.log.logger('INFO', 'Opened url: %s' % url)
 
-    def find_element(self, selector):
+    def find_element(self, *selector):
         """Find element on application view.
 
             :param selector: tuple (eg. By.ID, 'element/id')
