@@ -65,7 +65,6 @@ class WaitCommands:
             :return: element or raise Assertion 
         """
         try:
-            print(selector)
             return self.__web_driver_wait(self.driver, wait).until(EC.presence_of_element_located(*selector))
         except (TimeoutException, NoSuchElementException):
             raise AssertionError('Timeout, elemenent is not presented')

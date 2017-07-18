@@ -3,10 +3,9 @@ from lib.driverCommands import DriverCommands
 
 
 class Listerers(AbstractEventListener):
+    def __init__(self, test_class):
+        self.test_class = test_class
 
     def on_exception(self, exception, driver):
-        print("+++++++++++++++++++++++++++++++++++++++++++++++++")
-        print(exception.__dict__)
-        print("+++++++++++++++++++++++++++++++++++++++++++++++++")
-        # name = self.__class__(self).split('.')[3]
-        DriverCommands(driver).get_screenshot_file(driver, "123123")
+        name = self.test_class['_testMethodName']
+        DriverCommands(driver).get_screenshot_file(driver, name)

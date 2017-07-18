@@ -176,6 +176,8 @@ class DriverCommands:
         :param file_name: name of the screenshot file
         """
         scr_dir = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'screenshots')
+        if not os.path.exists(scr_dir):
+            os.mkdir(scr_dir)
         scr_file = os.path.join(scr_dir, file_name + '.png')
         try:
             driver.get_screenshot_as_file(scr_file)
