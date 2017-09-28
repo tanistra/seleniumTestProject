@@ -6,6 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from lib.logger import Logger
 from lib.waitCommands import WaitCommands
 from .configurationReader import load_configuration_from_file
+from selenium.webdriver.common.keys import Keys
 
 CONFIG = load_configuration_from_file('connect_config.json')
 
@@ -47,6 +48,24 @@ class DriverCommands:
         """scroll to the end of page"""
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+    def highlightMyElement(self, element):
+        self.driver.execute_script("arguments[0].setAttribute('style', arguments[1]);", element,
+                                   "color: orange; border: 4px solid orange;")
+        self.driver.execute_script("arguments[0].setAttribute('style', arguments[1]);", element,
+                                   "color: pink; border: 4px solid pink;")
+        self.driver.execute_script("arguments[0].setAttribute('style', arguments[1]);", element,
+                                   "color: yellow; border: 4px solid yellow;")
+        self.driver.execute_script("arguments[0].setAttribute('style', arguments[1]);", element, "")
+
+        """
+                element = arguments[0];
+                original_style = element.getAttribute('style');
+                element.setAttribute('style', original_style + "; background: yellow; border: 2px solid red;");
+                setTimeout(function(){
+                    element.setAttribute('style', original_style);
+                }, 300);
+        """
+
     def is_element_displayed(self, selector):
         """Returns bool value if element is or isn't displayed on page
 
@@ -59,12 +78,17 @@ class DriverCommands:
             element = self.driver.find_element(*selector)
             return element.is_displayed()
 
-    def click_element(self, selector):
+    def click_by_locator(self, selector):
         """Find element and click on it.
 
             :param selector: tuple (eg. By.ID, 'element/id')
         """
         element = self.waitCommands.wait_from_element_clickable(selector, 2)
+        self.highlightMyElement(element)
+        element.click()
+
+    def click_by_element(self, element):
+        self.highlightMyElement(element)
         element.click()
 
     def fill_in(self, selector, value, confirm=False):
@@ -74,11 +98,14 @@ class DriverCommands:
             :param value: text
             :param confirm: if True field is confirmed by send keyboard button Enter
         """
-        element = self.waitCommands.wait_for_element_not_visibility(selector)
-        element.clear()
+        element = self.waitCommands.wait_for_presence_of_element_located(selector)
+        self.clear_element(element)
         element.send_keys(value)
         if confirm:
             element.submit()
+
+    def clear_element(self, element):
+        element.send_keys((Keys.CONTROL, "a"), Keys.DELETE)
 
     def move_to_element(self, selector):
         """

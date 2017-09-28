@@ -1,6 +1,6 @@
 {
   "BROWSER": "CHROME",
-  "BASE_URL": "https://baseurl.com",
+  "BASE_URL": "http://google.pl",
   "LOGIN": "login",
   "PASS": "haslo",
   "ENV": "testenv",

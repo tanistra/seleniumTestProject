@@ -16,9 +16,9 @@ class WaitCommands:
         self.log = Logger()
         self.wait_time = CONFIG["WAIT_TIMEOUT"]
 
-    def __web_driver_wait(self, driver, wait=None):
+    def __web_driver_wait(self, wait=None):
         wait = wait or self.wait_time
-        return WebDriverWait(driver, wait)
+        return WebDriverWait(self.driver, wait)
 
     def wait_for_element_visibility(self, selector, wait=None):
         """Wait some time until expected element will be visible on current page
@@ -65,7 +65,7 @@ class WaitCommands:
             :return: element or raise Assertion 
         """
         try:
-            return self.__web_driver_wait(self.driver, wait).until(EC.presence_of_element_located(*selector))
+            return self.__web_driver_wait(wait).until(EC.presence_of_element_located(*selector))
         except (TimeoutException, NoSuchElementException):
             raise AssertionError('Timeout, elemenent is not presented')
 
